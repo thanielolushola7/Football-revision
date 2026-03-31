@@ -1,129 +1,52 @@
-// ---------------- SAVE SYSTEM ----------------
-let data = JSON.parse(localStorage.getItem("data")) || {
-    maths: { xp: 0, rating: 60 },
-    science: { xp: 0, rating: 50 },
-    geo: { xp: 0, rating: 55 }
-};
-
-let season = JSON.parse(localStorage.getItem("season")) || {
-    xp: 0,
-    level: 1
-};
-
-function saveAll() {
-    localStorage.setItem("data", JSON.stringify(data));
-    localStorage.setItem("season", JSON.stringify(season));
+body {
+    font-family: Arial;
+    text-align: center;
+    color: white;
+    margin: 0;
+    background: linear-gradient(135deg, #0f2027, #2c5364, #00c6ff);
 }
 
-// ---------------- TRAINING ----------------
-function train(subject) {
-    data[subject].xp += 10;
-
-    if (data[subject].xp % 50 === 0) {
-        data[subject].rating++;
-    }
-
-    updateUI();
-    saveAll();
+#menu button {
+    margin: 5px;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-// ---------------- UI ----------------
-function updateUI() {
-    for (let s in data) {
-        document.getElementById(s + "-xp").innerText = data[s].xp;
-        document.getElementById(s + "-rating").innerText = data[s].rating;
-    }
-
-    document.getElementById("level").innerText = season.level;
-    document.getElementById("season-xp").innerText = season.xp;
-
-    let percent = (season.xp / 100) * 100;
-    document.getElementById("progress").style.width = percent + "%";
+.section {
+    display: none;
+    margin-top: 20px;
 }
 
-// ---------------- MATCH SYSTEM ----------------
-let questions = [
-    { q: "2 + 2?", a: ["3","4","5","6"], correct: 1 },
-    { q: "10 ÷ 2?", a: ["2","5","10","3"], correct: 1 },
-    { q: "5 x 3?", a: ["15","10","8","20"], correct: 0 }
-];
-
-let current = 0;
-let playerScore = 0;
-let aiScore = 0;
-
-function startMatch() {
-    current = 0;
-    playerScore = 0;
-    aiScore = 0;
-    nextQuestion();
+/* CARDS */
+.card {
+    display: inline-block;
+    background: linear-gradient(135deg, gold, orange);
+    color: black;
+    padding: 15px;
+    border-radius: 15px;
+    width: 150px;
+    margin: 10px;
 }
 
-function nextQuestion() {
-    if (current >= questions.length) {
-        endMatch();
-        return;
-    }
-
-    let q = questions[current];
-    document.getElementById("question").innerText = q.q;
-
-    for (let i = 0; i < 4; i++) {
-        document.getElementById("a"+i).innerText = q.a[i];
-    }
+/* PROGRESS BAR */
+.progress-bar {
+    width: 300px;
+    height: 20px;
+    background: #333;
+    margin: auto;
+    border-radius: 10px;
 }
 
-function answer(index) {
-    let q = questions[current];
-
-    if (index === q.correct) {
-        playerScore++;
-        season.xp += 20; // reward XP
-    }
-
-    if (Math.random() < 0.6) {
-        aiScore++;
-    }
-
-    current++;
-    updateScore();
-    saveAll();
-
-    setTimeout(nextQuestion, 1000);
+#progress {
+    height: 100%;
+    width: 0%;
+    background: #00ff88;
+    border-radius: 10px;
 }
 
-function updateScore() {
-    document.getElementById("score").innerText =
-        "You " + playerScore + " - " + aiScore + " Opponent";
+/* MATCH BUTTONS */
+.buttons button {
+    margin: 5px;
+    padding: 10px;
 }
-
-function endMatch() {
-    if (playerScore > aiScore) {
-        document.getElementById("question").innerText = "🏆 You Win!";
-    } else {
-        document.getElementById("question").innerText = "😢 You Lose!";
-    }
-}
-
-// ---------------- SEASON PASS ----------------
-function gainXP() {
-    season.xp += 20;
-
-    if (season.xp >= 100) {
-        season.level++;
-        season.xp = 0;
-        document.getElementById("reward").innerText = "🎁 Level Up Reward!";
-    }
-
-    updateUI();
-    saveAll();
-}
-
-// ---------------- RESET ----------------
-function resetAll() {
-    localStorage.clear();
-    location.reload();
-}
-
-// LOAD
-updateUI();
