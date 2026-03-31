@@ -4,69 +4,59 @@
     <title>Revision Ultimate Team</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <h1>⚽ Revision Ultimate Team</h1>
 
-<!-- CARDS -->
-<div class="team">
-
-    <div class="card" onclick="train('maths')">
-        <h2>📊 Maths</h2>
-        <p>Rating: <span id="maths-rating">60</span></p>
-        <p>XP: <span id="maths-xp">0</span></p>
-    </div>
-
-    <div class="card" onclick="train('science')">
-        <h2>🧪 Science</h2>
-        <p>Rating: <span id="science-rating">50</span></p>
-        <p>XP: <span id="science-xp">0</span></p>
-    </div>
-
-    <div class="card" onclick="train('geo')">
-        <h2>🌍 Geography</h2>
-        <p>Rating: <span id="geo-rating">55</span></p>
-        <p>XP: <span id="geo-xp">0</span></p>
-    </div>
-
+<!-- MENU -->
+<div id="menu">
+    <button onclick="showSection('team')">🏟 Team</button>
+    <button onclick="showSection('subjects')">📚 Subjects</button>
+    <button onclick="showSection('season')">🎟 Season Pass</button>
+    <button onclick="showSection('rivals')">🏆 Division Rivals</button>
 </div>
 
-<!-- DIVISION RIVALS -->
-<h2>🏆 Division Rivals</h2>
-
-<p id="score">You 0 - 0 Opponent</p>
-<p id="question">Press start</p>
-
-<button onclick="startMatch()">Start Match</button>
-
-<div class="buttons">
-    <button onclick="answer(0)" id="a0"></button>
-    <button onclick="answer(1)" id="a1"></button>
-    <button onclick="answer(2)" id="a2"></button>
-    <button onclick="answer(3)" id="a3"></button>
+<!-- TEAM SECTION -->
+<div id="team-section" class="section">
+    <h2>Your Squad</h2>
+    <div id="squad"></div>
+    <p>Select 3–5 cards for your match squad.</p>
+    <button onclick="startMatch()">Start Match</button>
 </div>
 
-<p id="result"></p>
-
-<!-- SEASON PASS -->
-<h2>🎟️ Season Pass</h2>
-
-<p>Level: <span id="level">1</span></p>
-<p>XP: <span id="season-xp">0</span> / 100</p>
-
-<div class="progress-bar">
-    <div id="progress"></div>
+<!-- SUBJECTS SECTION -->
+<div id="subjects-section" class="section">
+    <h2>Subjects</h2>
+    <div id="subjects"></div>
 </div>
 
-<button onclick="gainXP()">Complete Challenge (+20 XP)</button>
+<!-- SEASON PASS SECTION -->
+<div id="season-section" class="section">
+    <h2>🎟 Season Pass</h2>
+    <p>Level: <span id="level">1</span></p>
+    <p>XP: <span id="season-xp">0</span> / 100</p>
+    <div class="progress-bar">
+        <div id="progress"></div>
+    </div>
+    <p id="reward"></p>
+</div>
 
-<p id="reward"></p>
+<!-- DIVISION RIVALS SECTION -->
+<div id="rivals-section" class="section">
+    <h2>🏆 Division Rivals</h2>
+    <p id="score">You 0 - 0 Opponent</p>
+    <p id="question">Press start</p>
+    <div class="buttons">
+        <button onclick="answer(0)" id="a0"></button>
+        <button onclick="answer(1)" id="a1"></button>
+        <button onclick="answer(2)" id="a2"></button>
+        <button onclick="answer(3)" id="a3"></button>
+    </div>
+    <p id="result"></p>
+</div>
 
-<br>
 <button onclick="resetAll()">Reset Progress</button>
 
 <script src="script.js"></script>
-
 </body>
 </html>
