@@ -1,5 +1,5 @@
 // -------------------- DATA --------------------
-let subjects = [
+let subjects = JSON.parse(localStorage.getItem("subjects")) || [
     { name: "Algebra", subject: "Maths", rating: 60, xp: 0, unlocked: true },
     { name: "Bonding", subject: "Chemistry", rating: 50, xp: 0, unlocked: false },
     { name: "Electricity", subject: "Physics", rating: 55, xp: 0, unlocked: false },
@@ -8,7 +8,6 @@ let subjects = [
 ];
 
 let squad = []; // selected cards for match
-
 let season = JSON.parse(localStorage.getItem("season")) || { xp: 0, level: 1 };
 
 let questions = [
@@ -80,20 +79,26 @@ function loadQuestion(){
 
 function answer(i){
     let q = questions.find(q => q.subject === subjects[currentSubjectIndex].subject);
-    if(i===q.correct){
-        playerScore++;
+
+    if(i === q.correct){
+        // Per-topic XP
         subjects[currentSubjectIndex].xp += 20;
-        if(subjects[currentSubjectIndex].xp>=50){
-            subjects[currentSubjectIndex].rating +=1;
-            subjects[currentSubjectIndex].xp=0;
+
+        // Rating increase capped at 99
+        if(subjects[currentSubjectIndex].xp >= 50){
+            subjects[currentSubjectIndex].rating = Math.min(99, subjects[currentSubjectIndex].rating + 1);
+            subjects[currentSubjectIndex].xp = 0;
         }
-        season.xp +=10;
-        if(season.xp>=100){
-            season.level +=1;
-            season.xp=0;
+
+        // Global season XP
+        season.xp += 10;
+        if(season.xp >= 100){
+            season.level += 1;
+            season.xp = 0;
             document.getElementById("reward").innerText = "🎁 Level Up Reward!";
         }
     }
+
     saveAll();
     endQuiz();
 }
@@ -109,6 +114,34 @@ function updateSeasonUI(){
     document.getElementById("level").innerText = season.level;
     document.getElementById("season-xp").innerText = season.xp;
     document.getElementById("progress").style.width = (season.xp/100*100)+"%";
+}
+
+// -------------------- PACKS --------------------
+function openPack(cost){
+    if(season.xp < cost){
+        alert("Not enough XP!");
+        return;
+    }
+    season.xp -= cost;
+
+    let locked = subjects.filter(c => !c.unlocked);
+    if(locked.length === 0){
+        alert("All cards unlocked!");
+        return;
+    }
+
+    let count = Math.min(locked.length, Math.floor(Math.random()*3)+1);
+    let cardsToUnlock = [];
+    for(let i=0;i<count;i++){
+        let index = Math.floor(Math.random()*locked.length);
+        let card = locked.splice(index,1)[0];
+        card.unlocked = true;
+        cardsToUnlock.push(card);
+    }
+
+    saveAll();
+    loadSubjects();
+    alert("You unlocked: " + cardsToUnlock.map(c=>c.name).join(", "));
 }
 
 // -------------------- RESET --------------------
