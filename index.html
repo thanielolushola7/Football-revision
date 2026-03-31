@@ -13,6 +13,7 @@
     <button onclick="showSection('team')">🏟 Team</button>
     <button onclick="showSection('subjects')">📚 Subjects</button>
     <button onclick="showSection('season')">🎟 Season Pass</button>
+    <button onclick="showSection('packs')">📦 Packs</button>
     <button onclick="showSection('rivals')">🏆 Division Rivals</button>
 </div>
 
@@ -20,7 +21,7 @@
 <div id="team-section" class="section">
     <h2>Your Squad</h2>
     <div id="squad"></div>
-    <p>Select 3–5 cards for your match squad.</p>
+    <p>Select 3–5 unlocked cards for your match squad.</p>
     <button onclick="startMatch()">Start Match</button>
 </div>
 
@@ -39,6 +40,15 @@
         <div id="progress"></div>
     </div>
     <p id="reward"></p>
+</div>
+
+<!-- PACKS SECTION -->
+<div id="packs-section" class="section">
+    <h2>📦 Packs</h2>
+    <button onclick="openPack(0)">Starter Pack (Free)</button>
+    <button onclick="openPack(50)">Bronze Pack (50 XP)</button>
+    <button onclick="openPack(100)">Silver Pack (100 XP)</button>
+    <button onclick="openPack(200)">Gold Pack (200 XP)</button>
 </div>
 
 <!-- DIVISION RIVALS SECTION -->
