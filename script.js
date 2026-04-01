@@ -1,4 +1,4 @@
-// Subjects
+// Subjects & topics
 const allSubjects=["Mathematics","English","Physics","Chemistry","Biology","History","Geography","French","Latin","Divinity","Computer Science","Drama","Art","Music","Economics","RS"];
 const subjectTopics={
   "Mathematics":["Algebra","Trigonometry","Calculus","Statistics"],
@@ -19,21 +19,40 @@ const subjectTopics={
   "RS":["Ethics","Philosophy"]
 };
 
-// Starter selection
+// Starter screen
 let selectedSubjects=[];
 const selectionContainer=document.getElementById("subjects-selection");
+
+// Load previous progress if exists
+let savedData=JSON.parse(localStorage.getItem("revisionTeam"));
+if(savedData){
+  selectedSubjects=savedData.selectedSubjects;
+  team=savedData.team;
+  showSection("menu");
+}
+
+// Populate subject cards
 allSubjects.forEach(sub=>{
   const div=document.createElement("div");
   div.className="subject-card"; div.innerText=sub;
+  if(selectedSubjects.includes(sub)) div.classList.add("selected");
   div.onclick=()=>{
-    if(selectedSubjects.includes(sub)){ selectedSubjects=selectedSubjects.filter(s=>s!==sub); div.classList.remove("selected"); }
-    else{ if(selectedSubjects.length<11){ selectedSubjects.push(sub); div.classList.add("selected"); } else alert("You can only pick 11 subjects!"); }
+    if(selectedSubjects.includes(sub)){
+      selectedSubjects=selectedSubjects.filter(s=>s!==sub); div.classList.remove("selected");
+    }else{
+      if(selectedSubjects.length<11){ selectedSubjects.push(sub); div.classList.add("selected"); }
+      else alert("You can only pick 11 subjects!");
+    }
   };
   selectionContainer.appendChild(div);
 });
+
+// Start game button
 document.getElementById("start-game-btn").onclick=()=>{
-  if(selectedSubjects.length!==11){ alert("Pick exactly 11 subjects to start!"); return; }
-  team=selectedSubjects.map(s=>({name:s,rating:70})); showSection("menu");
+  if(selectedSubjects.length!==11){ alert("Pick exactly 11 subjects!"); return; }
+  if(!team) team=selectedSubjects.map(s=>({name:s,rating:70}));
+  saveProgress();
+  showSection("menu");
 };
 
 // Navigation
@@ -44,7 +63,7 @@ function showSection(sec){
   if(sec==="team") loadTeam();
 }
 
-// Subjects
+// Load subjects
 function loadSubjects(){
   const container=document.getElementById("subjects-container"); container.innerHTML="";
   selectedSubjects.forEach(sub=>{
@@ -54,27 +73,27 @@ function loadSubjects(){
   });
 }
 
-// Topics
+// Load topics
 function selectSubject(sub){
   showSection("topics");
   document.getElementById("topic-subject-name").innerText=sub;
   const container=document.getElementById("topics-container"); container.innerHTML="";
   subjectTopics[sub].forEach(t=>{
     const div=document.createElement("div"); div.className="card";
-    div.innerHTML=`<h4>${t}</h4><button onclick="train('${sub}', '${t}')">Train</button>`;
+    div.innerHTML=`<h4>${t}</h4><button onclick="train('${sub}','${t}')">Train</button>`;
     container.appendChild(div);
   });
 }
 
-// Training increases rating
+// Training
 function train(subject, topic){
   alert(`Training on ${topic}...`);
   const player=team.find(p=>p.name===subject);
-  if(player){ player.rating=Math.min(player.rating+3,99); loadTeam(); }
+  if(player){ player.rating=Math.min(player.rating+3,99); saveProgress(); loadTeam(); }
 }
 
 // Team
-let team=[];
+let team=team||[];
 function loadTeam(){
   const container=document.getElementById("team-container"); container.innerHTML="";
   team.forEach(p=>{
@@ -95,7 +114,21 @@ function openPack(){
   }
   const packResult=document.getElementById("pack-result");
   packResult.innerText=reward; packResult.classList.remove("hidden");
+  saveProgress();
   loadTeam();
+}
+
+// Save progress
+function saveProgress(){
+  localStorage.setItem("revisionTeam", JSON.stringify({selectedSubjects, team}));
+}
+
+// Reset progress
+function resetProgress(){
+  if(confirm("Are you sure you want to reset your progress?")){
+    localStorage.removeItem("revisionTeam");
+    location.reload();
+  }
 }
 
 // Daily Login
