@@ -1,20 +1,22 @@
 body {
     font-family: Arial;
-    text-align: center;
     color: white;
     margin: 0;
+    text-align: center;
 
     background: url("bg.jpg") no-repeat center center fixed;
     background-size: cover;
 }
 
-/* overlay */
+/* DARK OVERLAY */
 body::after {
     content:"";
     position:fixed;
-    top:0; left:0;
-    width:100%; height:100%;
+    width:100%;
+    height:100%;
     background:rgba(0,0,0,0.7);
+    top:0;
+    left:0;
     z-index:-1;
 }
 
@@ -22,37 +24,39 @@ body::after {
     display:none;
 }
 
-/* MENU */
+/* FIFA MENU */
 #menu {
     display:flex;
     justify-content:center;
-    gap:20px;
-    margin:30px;
+    margin-top:50px;
 }
 
 .menu-card {
-    width:220px;
-    height:140px;
+    width:250px;
+    height:120px;
+    margin:10px;
     background:rgba(0,0,0,0.6);
-    border-radius:15px;
-    padding:15px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
     cursor:pointer;
     transition:0.3s;
 }
 
 .menu-card:hover {
     transform:scale(1.1);
+    background:rgba(255,255,255,0.2);
 }
 
 /* CARDS */
 .card {
     display:inline-block;
-    width:150px;
-    margin:10px;
     padding:10px;
-    border-radius:10px;
+    margin:10px;
     background:gold;
     color:black;
+    border-radius:10px;
 }
 
 /* BUTTONS */
