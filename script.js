@@ -14,22 +14,20 @@ let team = [
 ];
 
 // Show / Hide Sections
-function showSection(section) {
-    ["menu","subjects","packs","team"].forEach(s => {
+function showSection(section){
+    ["menu","subjects","packs","team"].forEach(s=>{
         document.getElementById(s).classList.add("hidden");
     });
-
     document.getElementById(section).classList.remove("hidden");
 
     if(section === "subjects") loadSubjects();
     if(section === "team") loadTeam();
 }
 
-// Load subjects dynamically
+// Load Subjects
 function loadSubjects(){
     const container = document.getElementById("subjects-container");
     container.innerHTML = "";
-
     subjects.forEach((s,i)=>{
         const div = document.createElement("div");
         div.className = "card";
@@ -42,12 +40,12 @@ function loadSubjects(){
     });
 }
 
-// Select subject placeholder
+// Placeholder for selecting a subject
 function selectSubject(index){
-    alert(`You selected ${subjects[index].name}. Topics will be loaded next!`);
+    alert(`You selected ${subjects[index].name}!`);
 }
 
-// Load team dynamically
+// Load Team
 function loadTeam(){
     const container = document.getElementById("team-container");
     container.innerHTML = "";
@@ -63,15 +61,13 @@ function loadTeam(){
     });
 }
 
-// --- DAILY LOGIN ---
+// DAILY LOGIN
 const lastClaim = localStorage.getItem("dailyLogin");
 const today = new Date().toDateString();
-
 if(lastClaim !== today){
     document.getElementById("daily-login-popup").classList.remove("hidden");
     localStorage.setItem("dailyLogin", today);
 }
-
 function closeDailyLogin(){
     document.getElementById("daily-login-popup").classList.add("hidden");
 }
