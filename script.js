@@ -98,8 +98,32 @@ function loadTeam(){
   const container=document.getElementById("team-container"); container.innerHTML="";
   team.forEach(p=>{
     const div=document.createElement("div"); div.className="card";
-    div.innerHTML=`<h3>${p.name}</h3><p>Rating: ${p.rating}</p>`;
+
+    // Determine tier based on rating
+    let tierClass="card-bronze";
+    if(p.rating>=85) tierClass="card-legendary";
+    else if(p.rating>=75) tierClass="card-gold";
+    else if(p.rating>=65) tierClass="card-silver";
+
+    div.classList.add(tierClass);
+
+    // Build card content
+    let statsHTML="";
+    if(subjectTopics[p.name]){
+      subjectTopics[p.name].forEach(t=>{
+        statsHTML+=`<div class="card-stat">${t}</div>`;
+      });
+    }
+
+    div.innerHTML=`
+      <div class="card-rating">${p.rating}</div>
+      <div class="card-subject">${p.name}</div>
+      <div class="card-stats">${statsHTML}</div>
+    `;
+
     container.appendChild(div);
+  });
+}
   });
 }
 
