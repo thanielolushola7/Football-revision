@@ -10,13 +10,9 @@ body {
   color: white;
 }
 
-.hidden {
-  display: none;
-}
+.hidden { display: none; }
 
-h1, h2, h3, h4 {
-  margin: 5px;
-}
+h1, h2, h3, h4 { margin: 5px; }
 
 /* ============================
    Starter Screen
@@ -77,9 +73,7 @@ button:hover {
 /* ============================
    Sections
 ============================ */
-#menu, #subjects, #topics, #team, #packs {
-  padding: 20px;
-}
+#menu, #subjects, #topics, #team, #packs { padding: 20px; }
 
 /* ============================
    Cards General Style
@@ -120,16 +114,9 @@ button:hover {
   border-radius: 10px;
 }
 
-.card-subject {
-  margin-top: 30px;
-  font-size: 20px;
-  font-weight: bold;
-}
+.card-subject { margin-top: 30px; font-size: 20px; font-weight: bold; }
 
-.card-stats {
-  width: 100%;
-  margin-top: auto;
-}
+.card-stats { width: 100%; margin-top: auto; }
 
 .card-stat {
   display: flex;
