@@ -4,69 +4,38 @@
     <title>Revision Ultimate Team</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <h1>⚽ Revision Ultimate Team</h1>
 
-<!-- MENU -->
 <div id="menu">
     <button onclick="showSection('team')">🏟 Team</button>
-    <button onclick="showSection('subjects')">📚 Subjects</button>
-    <button onclick="showSection('season')">🎟 Season Pass</button>
+    <button onclick="showSection('subjects')">📚 Cards</button>
     <button onclick="showSection('packs')">📦 Packs</button>
-    <button onclick="showSection('rivals')">🏆 Division Rivals</button>
 </div>
 
-<!-- TEAM SECTION -->
+<!-- TEAM -->
 <div id="team-section" class="section">
-    <h2>Your Squad</h2>
+    <h2>Your Squad (Max 5)</h2>
     <div id="squad"></div>
-    <p>Select 3–5 unlocked cards for your match squad.</p>
-    <button onclick="startMatch()">Start Match</button>
 </div>
 
-<!-- SUBJECTS SECTION -->
+<!-- SUBJECTS -->
 <div id="subjects-section" class="section">
-    <h2>Subjects</h2>
+    <h2>Your Cards</h2>
     <div id="subjects"></div>
 </div>
 
-<!-- SEASON PASS SECTION -->
-<div id="season-section" class="section">
-    <h2>🎟 Season Pass</h2>
-    <p>Level: <span id="level">1</span></p>
-    <p>XP: <span id="season-xp">0</span> / 100</p>
-    <div class="progress-bar">
-        <div id="progress"></div>
-    </div>
-    <p id="reward"></p>
-</div>
-
-<!-- PACKS SECTION -->
+<!-- PACKS -->
 <div id="packs-section" class="section">
     <h2>📦 Packs</h2>
-    <button onclick="openPack(0)">Starter Pack (Free)</button>
-    <button onclick="openPack(50)">Bronze Pack (50 XP)</button>
-    <button onclick="openPack(100)">Silver Pack (100 XP)</button>
-    <button onclick="openPack(200)">Gold Pack (200 XP)</button>
+    <p>XP: <span id="xp"></span></p>
+    <button onclick="openPack()">Open Pack (50 XP)</button>
+    <div id="pack-animation"></div>
 </div>
-
-<!-- DIVISION RIVALS SECTION -->
-<div id="rivals-section" class="section">
-    <h2>🏆 Division Rivals</h2>
-    <p id="score">You 0 - 0 Opponent</p>
-    <p id="question">Press start</p>
-    <div class="buttons">
-        <button onclick="answer(0)" id="a0"></button>
-        <button onclick="answer(1)" id="a1"></button>
-        <button onclick="answer(2)" id="a2"></button>
-        <button onclick="answer(3)" id="a3"></button>
-    </div>
-    <p id="result"></p>
-</div>
-
-<button onclick="resetAll()">Reset Progress</button>
 
 <script src="script.js"></script>
+
 </body>
 </html>
