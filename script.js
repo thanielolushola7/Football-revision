@@ -1,58 +1,70 @@
 // ---------- DATA ----------
 let subjects = JSON.parse(localStorage.getItem("subjects")) || [
-
 {
-    name: "Maths",
-    topics: [
-        {name:"Algebra", rating:60, xp:0, unlocked:true},
-        {name:"Geometry", rating:50, xp:0, unlocked:false},
-        {name:"Trigonometry", rating:50, xp:0, unlocked:false}
+    name:"Maths",
+    topics:[
+        {name:"Algebra",rating:60,xp:0,unlocked:true,rarity:"gold"},
+        {name:"Geometry",rating:50,xp:0,unlocked:false,rarity:"bronze"},
+        {name:"Trigonometry",rating:50,xp:0,unlocked:false,rarity:"silver"}
     ]
 },
-
 {
-    name: "Physics",
-    topics: [
-        {name:"Energy", rating:50, xp:0, unlocked:false},
-        {name:"Electricity", rating:50, xp:0, unlocked:false}
+    name:"Physics",
+    topics:[
+        {name:"Energy",rating:50,xp:0,unlocked:false,rarity:"bronze"},
+        {name:"Electricity",rating:50,xp:0,unlocked:false,rarity:"silver"}
     ]
 }
-
 ];
 
 let xp = JSON.parse(localStorage.getItem("xp")) || 0;
-let selectedSubject = null;
+
+let loginData = JSON.parse(localStorage.getItem("loginData")) || {
+    lastLogin:null,
+    streak:0
+};
+
+let selectedSubject=null;
+
+// ---------- DAILY LOGIN ----------
+function checkDaily(){
+    let today=new Date().toDateString();
+
+    if(loginData.lastLogin!==today){
+        let yesterday=new Date();
+        yesterday.setDate(yesterday.getDate()-1);
+
+        if(loginData.lastLogin===yesterday.toDateString()){
+            loginData.streak++;
+        } else {
+            loginData.streak=1;
+        }
+
+        loginData.lastLogin=today;
+
+        let reward=20+loginData.streak*5;
+        xp+=reward;
+
+        alert("Daily Reward +" + reward + " XP | Streak: " + loginData.streak);
+
+        save();
+    }
+}
 
 // ---------- QUESTIONS ----------
-let questions = {
-    "Algebra":[
-        {q:"2x+6=14",a:["4","6","3","5"],correct:0}
-    ],
-    "Geometry":[
-        {q:"Triangle angles?",a:["180","360","90","270"],correct:0}
-    ],
-    "Trigonometry":[
-        {q:"sin(30)?",a:["0.5","1","0","-1"],correct:0}
-    ],
-    "Energy":[
-        {q:"Energy unit?",a:["Joule","Volt","Newton","Watt"],correct:0}
-    ],
-    "Electricity":[
-        {q:"V= ?",a:["IR","ma","E/t","none"],correct:0}
-    ]
+let questions={
+"Algebra":[{q:"2x+6=14",a:["4","6","3","5"],correct:0}],
+"Geometry":[{q:"Triangle sum?",a:["180","360","90","270"],correct:0}],
+"Trigonometry":[{q:"sin30?",a:["0.5","1","0","-1"],correct:0}],
+"Energy":[{q:"Unit of energy?",a:["Joule","Volt","Newton","Watt"],correct:0}],
+"Electricity":[{q:"V=?",a:["IR","ma","E/t","none"],correct:0}]
 };
 
 // ---------- SAVE ----------
 function save(){
-    localStorage.setItem("subjects", JSON.stringify(subjects));
-    localStorage.setItem("xp", xp);
-}
-
-// ---------- SUBJECT RATING ----------
-function getSubjectRating(subject){
-    let total=0;
-    subject.topics.forEach(t=>total+=t.rating);
-    return Math.round(total/subject.topics.length);
+    localStorage.setItem("subjects",JSON.stringify(subjects));
+    localStorage.setItem("xp",xp);
+    localStorage.setItem("loginData",JSON.stringify(loginData));
 }
 
 // ---------- UI ----------
@@ -63,42 +75,32 @@ function showSection(name){
 
 // ---------- LOAD SUBJECTS ----------
 function loadSubjects(){
-    let container=document.getElementById("subjects");
-    container.innerHTML="";
+    let c=document.getElementById("subjects");
+    c.innerHTML="";
 
     subjects.forEach((s,i)=>{
         let div=document.createElement("div");
         div.className="card";
 
-        let unlockedCount = s.topics.filter(t=>t.unlocked).length;
-
         div.innerHTML=`
-            <h3>${s.name}</h3>
-            <p>Rating: ${getSubjectRating(s)}</p>
-            <p>${unlockedCount}/${s.topics.length} topics</p>
-            <button onclick="selectSubject(${i})">Play</button>
+        <h3>${s.name}</h3>
+        <button onclick="selectSubject(${i})">Play</button>
         `;
 
-        container.appendChild(div);
+        c.appendChild(div);
     });
 }
 
-// ---------- SELECT SUBJECT ----------
 function selectSubject(i){
     selectedSubject=subjects[i];
-    document.getElementById("game-subject").innerText=selectedSubject.name;
     showSection("game");
 }
 
 // ---------- GAME ----------
-let playerGoals=0;
-let aiGoals=0;
-let currentTopic;
-let currentQ;
+let player=0, ai=0, currentTopic, currentQ;
 
 function startMatch(){
-    playerGoals=0;
-    aiGoals=0;
+    player=0; ai=0;
     nextQuestion();
     updateScore();
 }
@@ -122,33 +124,24 @@ function nextQuestion(){
 
 function answer(i){
     if(i===currentQ.correct){
-        playerGoals++;
-
-        currentTopic.xp+=20;
-        if(currentTopic.xp>=50){
-            currentTopic.rating=Math.min(99,currentTopic.rating+1);
-            currentTopic.xp=0;
-        }
-
-    } else {
-        if(Math.random()<0.6) aiGoals++;
+        player++;
+    } else if(Math.random()<0.6){
+        ai++;
     }
 
     updateScore();
 
-    if(playerGoals===3 || aiGoals===3){
+    if(player===3||ai===3){
         endMatch();
-    } else {
-        nextQuestion();
-    }
+    } else nextQuestion();
 }
 
 function updateScore(){
-    document.getElementById("score").innerText=playerGoals+" - "+aiGoals;
+    document.getElementById("score").innerText=player+" - "+ai;
 }
 
 function endMatch(){
-    if(playerGoals>aiGoals){
+    if(player>ai){
         xp+=30;
         alert("Win +30 XP");
     } else {
@@ -161,14 +154,17 @@ function endMatch(){
     showSection("subjects");
 }
 
-// ---------- PACK ----------
-function openPack(){
-    if(xp<50){
+// ---------- PACKS ----------
+function openPack(type){
+
+    let cost = type==="bronze"?30:type==="silver"?50:80;
+
+    if(xp<cost){
         alert("Not enough XP");
         return;
     }
 
-    xp-=50;
+    xp-=cost;
     updateXP();
 
     let locked=[];
@@ -179,12 +175,10 @@ function openPack(){
         });
     });
 
-    if(locked.length===0){
-        alert("All unlocked!");
-        return;
-    }
+    let pool = locked.filter(t=>t.rarity===type);
+    if(pool.length===0) pool=locked;
 
-    let card=locked[Math.floor(Math.random()*locked.length)];
+    let card=pool[Math.floor(Math.random()*pool.length)];
     card.unlocked=true;
 
     save();
@@ -199,5 +193,6 @@ function updateXP(){
     document.getElementById("xp").innerText=xp;
 }
 
+checkDaily();
 loadSubjects();
 updateXP();
