@@ -1,61 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Revision Ultimate Team</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revision Ultimate Team</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<h1>⚽ Revision Ultimate Team</h1>
+<!-- Background -->
+<div id="bg"></div>
 
-<!-- FIFA STYLE MENU -->
+<!-- Header -->
+<header>
+    <h1>⚽ Revision Ultimate Team</h1>
+</header>
+
+<!-- Menu -->
 <div id="menu">
-    <div class="menu-card" onclick="showSection('subjects')">
+
+    <!-- BIG PLAY TILE -->
+    <div class="menu-main" onclick="showSection('subjects')">
         <h2>PLAY</h2>
+        <p>Division Rivals</p>
     </div>
 
-    <div class="menu-card" onclick="showSection('packs')">
-        <h2>PACKS</h2>
+    <!-- SIDE TILES -->
+    <div class="menu-side">
+
+        <div class="menu-card" onclick="showSection('packs')">
+            <h3>PACKS</h3>
+        </div>
+
+        <div class="menu-card">
+            <h3>OBJECTIVES</h3>
+        </div>
+
+        <div class="menu-card">
+            <h3>STORE</h3>
+        </div>
+
     </div>
+
 </div>
 
-<!-- SUBJECTS -->
-<div id="subjects-section" class="section">
+<!-- Subjects Section -->
+<div id="subjects" class="hidden">
     <h2>Select Subject</h2>
-    <div id="subjects"></div>
+    <div id="subjects-container"></div>
 </div>
 
-<!-- PACKS -->
-<div id="packs-section" class="section">
-    <h2>Packs</h2>
-    <p>XP: <span id="xp">0</span></p>
-
-    <button onclick="openPack('bronze')">Bronze Pack (30 XP)</button>
-    <button onclick="openPack('silver')">Silver Pack (50 XP)</button>
-    <button onclick="openPack('gold')">Gold Pack (80 XP)</button>
-
-    <div id="pack-animation"></div>
-</div>
-
-<!-- GAME -->
-<div id="game-section" class="section">
-    <h2 id="game-subject">Match</h2>
-    <p id="score">0 - 0</p>
-    <p id="question"></p>
-
-    <div>
-        <button onclick="answer(0)" id="a0"></button>
-        <button onclick="answer(1)" id="a1"></button>
-        <button onclick="answer(2)" id="a2"></button>
-        <button onclick="answer(3)" id="a3"></button>
-    </div>
-
-    <br>
-    <button onclick="startMatch()">Start Match</button>
+<!-- Packs Section -->
+<div id="packs" class="hidden">
+    <h2>Packs (Coming Soon!)</h2>
+    <p>Open packs to unlock new topics and improve your team!</p>
 </div>
 
 <script src="script.js"></script>
-
 </body>
 </html>
