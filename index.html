@@ -16,61 +16,51 @@
     <h1>⚽ Revision Ultimate Team</h1>
 </header>
 
-<!-- Menu -->
+<!-- MENU -->
 <div id="menu">
-
-    <!-- BIG PLAY TILE -->
     <div class="menu-main" onclick="showSection('subjects')">
         <h2>PLAY</h2>
         <p>Division Rivals</p>
     </div>
 
-    <!-- SIDE TILES -->
     <div class="menu-side">
-
         <div class="menu-card" onclick="showSection('packs')">
             <h3>PACKS</h3>
         </div>
-
         <div class="menu-card" onclick="showSection('team')">
             <h3>TEAM</h3>
         </div>
-
         <div class="menu-card">
             <h3>OBJECTIVES</h3>
         </div>
-
     </div>
-
 </div>
 
-<!-- Subjects Section -->
+<!-- SUBJECTS -->
 <div id="subjects" class="hidden">
     <h2>Select Subject</h2>
     <div id="subjects-container"></div>
-    <button onclick="showSection('menu')">Back</button>
+    <button class="back-btn" onclick="showSection('menu')">Back</button>
 </div>
 
-<!-- Packs Section -->
+<!-- PACKS -->
 <div id="packs" class="hidden">
     <h2>Packs</h2>
-    <p>Open packs to unlock new topics and improve your team!</p>
-    <button onclick="showSection('menu')">Back</button>
+    <p>Open packs to unlock new players!</p>
+    <button class="back-btn" onclick="showSection('menu')">Back</button>
 </div>
 
-<!-- Team Section -->
+<!-- TEAM -->
 <div id="team" class="hidden">
     <h2>Your Team</h2>
-    <div id="team-container">
-        <!-- Example team player cards -->
-    </div>
-    <button onclick="showSection('menu')">Back</button>
+    <div id="team-container"></div>
+    <button class="back-btn" onclick="showSection('menu')">Back</button>
 </div>
 
-<!-- Daily Login Popup -->
+<!-- DAILY LOGIN -->
 <div id="daily-login-popup" class="hidden">
     <h3>Daily Reward!</h3>
-    <p>You've claimed your daily bonus points 🎉</p>
+    <p>You've claimed your daily bonus 🎉</p>
     <button onclick="closeDailyLogin()">Close</button>
 </div>
 
