@@ -1,10 +1,125 @@
-/* Existing styles remain the same */
+/* GENERAL */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    color: white;
+}
 
-/* Daily Login Popup */
+/* BACKGROUND */
+#bg {
+    position: fixed;
+    top:0; left:0;
+    width: 100%;
+    height: 100%;
+    background: url("bg.jpg") no-repeat center center fixed;
+    background-size: cover;
+    z-index: -1;
+    filter: brightness(0.6);
+}
+
+/* HEADER */
+header {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+/* MENU */
+#menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 60px;
+}
+
+.menu-main {
+    width: 420px;
+    height: 240px;
+    background: linear-gradient(135deg, #1a1a1a, #000);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 0 30px rgba(0,0,0,0.6);
+}
+.menu-main:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 40px rgba(255,255,255,0.3);
+}
+
+.menu-side {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+.menu-card {
+    width: 180px;
+    height: 110px;
+    background: rgba(0,0,0,0.7);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s;
+    text-align: center;
+}
+.menu-card:hover {
+    transform: scale(1.08);
+    background: rgba(255,255,255,0.2);
+}
+
+/* SECTIONS */
+#subjects, #packs, #team {
+    text-align: center;
+    margin-top: 50px;
+}
+
+#subjects-container, #team-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.card {
+    display: inline-block;
+    width: 180px;
+    padding: 15px;
+    margin: 15px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, gold, orange);
+    color: black;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    transition: 0.3s;
+}
+.card:hover { transform: scale(1.1); }
+
+.hidden { display: none; }
+.back-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 12px;
+    border: none;
+    background: #1a1a1a;
+    color: white;
+}
+
+/* DAILY LOGIN */
 #daily-login-popup {
     position: fixed;
-    top: 50%;
-    left: 50%;
+    top: 50%; left:50%;
     transform: translate(-50%, -50%);
     background: linear-gradient(135deg, #ff0, #ffa500);
     padding: 20px;
@@ -13,7 +128,6 @@
     box-shadow: 0 0 30px rgba(0,0,0,0.7);
     z-index: 10;
 }
-
 #daily-login-popup button {
     margin-top: 15px;
     padding: 8px 15px;
@@ -25,7 +139,4 @@
     color: white;
     transition: 0.2s;
 }
-
-#daily-login-popup button:hover {
-    transform: scale(1.05);
-}
+#daily-login-popup button:hover { transform: scale(1.05); }
