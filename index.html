@@ -8,63 +8,64 @@
 </head>
 <body>
 
-<!-- Background -->
 <div id="bg"></div>
 
-<!-- Starter Screen -->
+<!-- STARTER SCREEN -->
 <div id="starter-screen">
-    <h1>⚽ Pick Your 11 GCSE Subjects</h1>
-    <p>Select the subjects you want in your squad</p>
-    <div id="subjects-selection"></div>
-    <button id="start-game-btn">Start Game</button>
+  <h1>⚽ Pick Your 11 GCSE Subjects</h1>
+  <p>Select the subjects you want in your squad</p>
+  <div id="subjects-selection"></div>
+  <button id="start-game-btn">Start Game</button>
 </div>
 
-<!-- Main Menu -->
+<!-- MENU -->
 <div id="menu" class="hidden">
-    <div class="menu-main" onclick="showSection('subjects')">
-        <h2>PLAY</h2>
-        <p>Division Rivals</p>
-    </div>
-    <div class="menu-side">
-        <div class="menu-card" onclick="showSection('packs')"><h3>PACKS</h3></div>
-        <div class="menu-card" onclick="showSection('team')"><h3>TEAM</h3></div>
-        <div class="menu-card"><h3>OBJECTIVES</h3></div>
-    </div>
+  <div class="menu-main" onclick="showSection('subjects')">
+    <h2>PLAY</h2><p>Division Rivals</p>
+  </div>
+  <div class="menu-side">
+    <div class="menu-card" onclick="showSection('packs')"><h3>PACKS</h3></div>
+    <div class="menu-card" onclick="showSection('team')"><h3>TEAM</h3></div>
+    <div class="menu-card"><h3>OBJECTIVES</h3></div>
+  </div>
 </div>
 
-<!-- Subjects Section -->
+<!-- SUBJECTS -->
 <div id="subjects" class="hidden">
-    <h2>Select Subject</h2>
-    <div id="subjects-container"></div>
-    <button class="back-btn" onclick="showSection('menu')">Back</button>
+  <h2>Select Subject</h2>
+  <div id="subjects-container"></div>
+  <button class="back-btn" onclick="showSection('menu')">Back</button>
 </div>
 
-<!-- Topics Section -->
+<!-- TOPICS -->
 <div id="topics" class="hidden">
-    <h2 id="topic-subject-name"></h2>
-    <div id="topics-container"></div>
-    <button class="back-btn" onclick="showSection('subjects')">Back</button>
+  <h2 id="topic-subject-name"></h2>
+  <div id="topics-container"></div>
+  <button class="back-btn" onclick="showSection('subjects')">Back</button>
 </div>
 
-<!-- Packs Section -->
+<!-- PACKS -->
 <div id="packs" class="hidden">
-    <h2>Packs</h2>
-    <p>Open packs to unlock new players!</p>
-    <button class="back-btn" onclick="showSection('menu')">Back</button>
+  <h2>Packs</h2>
+  <div id="pack-animation">
+    <button onclick="openPack()">Open Pack</button>
+    <div id="pack-result" class="hidden"></div>
+  </div>
+  <button class="back-btn" onclick="showSection('menu')">Back</button>
 </div>
 
-<!-- Team Section -->
+<!-- TEAM -->
 <div id="team" class="hidden">
-    <h2>Your Team</h2>
-    <div id="team-container"></div>
-    <button class="back-btn" onclick="showSection('menu')">Back</button>
+  <h2>Your Team</h2>
+  <div id="team-container"></div>
+  <button class="back-btn" onclick="showSection('menu')">Back</button>
 </div>
 
-<!-- Daily Login -->
+<!-- DAILY LOGIN -->
 <div id="daily-login-popup" class="hidden">
-    <h3>Daily Reward!</h3>
-    <p>You've claimed your daily bonus 🎉</p>
-    <button onclick="closeDailyLogin()">Close</button>
+  <h3>Daily Reward!</h3>
+  <p>You've claimed your daily bonus 🎉</p>
+  <button onclick="closeDailyLogin()">Close</button>
 </div>
 
 <script src="script.js"></script>
