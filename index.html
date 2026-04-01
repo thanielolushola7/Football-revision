@@ -3,68 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Revision Ultimate Team</title>
+<title>GCSE FIFA Revision</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div id="bg"></div>
-
-<!-- STARTER SCREEN -->
+<!-- Starter Screen -->
 <div id="starter-screen">
-  <h1>⚽ Pick Your 11 GCSE Subjects</h1>
-  <p>Select the subjects you want in your squad</p>
+  <h1>Pick Your 11 Subjects</h1>
   <div id="subjects-selection"></div>
   <button id="start-game-btn">Start Game</button>
 </div>
 
-<!-- MENU -->
+<!-- Main Menu -->
 <div id="menu" class="hidden">
-  <div class="menu-main" onclick="showSection('subjects')">
-    <h2>PLAY</h2><p>Division Rivals</p>
-  </div>
-  <div class="menu-side">
-    <div class="menu-card" onclick="showSection('packs')"><h3>PACKS</h3></div>
-    <div class="menu-card" onclick="showSection('team')"><h3>TEAM</h3></div>
-    <div class="menu-card"><h3>OBJECTIVES</h3></div>
-  </div>
+  <h1>Revision Menu</h1>
+  <button onclick="showSection('subjects')">Subjects</button>
+  <button onclick="showSection('team')">Team</button>
+  <button onclick="showSection('packs')">Packs</button>
+  <button onclick="resetProgress()">Reset Progress</button>
 </div>
 
-<!-- SUBJECTS -->
+<!-- Subjects Section -->
 <div id="subjects" class="hidden">
-  <h2>Select Subject</h2>
+  <h1>Subjects</h1>
   <div id="subjects-container"></div>
-  <button class="back-btn" onclick="showSection('menu')">Back</button>
+  <button onclick="showSection('menu')">Back to Menu</button>
 </div>
 
-<!-- TOPICS -->
+<!-- Topics Section -->
 <div id="topics" class="hidden">
-  <h2 id="topic-subject-name"></h2>
+  <h1 id="topic-subject-name"></h1>
   <div id="topics-container"></div>
-  <button class="back-btn" onclick="showSection('subjects')">Back</button>
+  <button onclick="showSection('subjects')">Back to Subjects</button>
 </div>
 
-<!-- PACKS -->
-<div id="packs" class="hidden">
-  <h2>Packs</h2>
-  <div id="pack-animation">
-    <button onclick="openPack()">Open Pack</button>
-    <div id="pack-result" class="hidden"></div>
-  </div>
-  <button class="back-btn" onclick="showSection('menu')">Back</button>
-</div>
-
-<!-- TEAM -->
+<!-- Team Section -->
 <div id="team" class="hidden">
-  <h2>Your Team</h2>
+  <h1>Your Team</h1>
   <div id="team-container"></div>
-  <button class="back-btn" onclick="showSection('menu')">Back</button>
+  <button onclick="showSection('menu')">Back to Menu</button>
 </div>
 
-<!-- DAILY LOGIN -->
+<!-- Packs Section -->
+<div id="packs" class="hidden">
+  <h1>Packs</h1>
+  <button onclick="openPack()">Open Pack</button>
+  <div id="pack-result" class="hidden"></div>
+  <button onclick="showSection('menu')">Back to Menu</button>
+</div>
+
+<!-- Daily Login Popup -->
 <div id="daily-login-popup" class="hidden">
-  <h3>Daily Reward!</h3>
-  <p>You've claimed your daily bonus 🎉</p>
+  <h2>Daily Login Bonus!</h2>
+  <p>Welcome back! Train your subjects today!</p>
   <button onclick="closeDailyLogin()">Close</button>
 </div>
 
