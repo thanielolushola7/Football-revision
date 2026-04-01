@@ -32,12 +32,12 @@
             <h3>PACKS</h3>
         </div>
 
-        <div class="menu-card">
-            <h3>OBJECTIVES</h3>
+        <div class="menu-card" onclick="showSection('team')">
+            <h3>TEAM</h3>
         </div>
 
         <div class="menu-card">
-            <h3>STORE</h3>
+            <h3>OBJECTIVES</h3>
         </div>
 
     </div>
@@ -48,12 +48,30 @@
 <div id="subjects" class="hidden">
     <h2>Select Subject</h2>
     <div id="subjects-container"></div>
+    <button onclick="showSection('menu')">Back</button>
 </div>
 
 <!-- Packs Section -->
 <div id="packs" class="hidden">
-    <h2>Packs (Coming Soon!)</h2>
+    <h2>Packs</h2>
     <p>Open packs to unlock new topics and improve your team!</p>
+    <button onclick="showSection('menu')">Back</button>
+</div>
+
+<!-- Team Section -->
+<div id="team" class="hidden">
+    <h2>Your Team</h2>
+    <div id="team-container">
+        <!-- Example team player cards -->
+    </div>
+    <button onclick="showSection('menu')">Back</button>
+</div>
+
+<!-- Daily Login Popup -->
+<div id="daily-login-popup" class="hidden">
+    <h3>Daily Reward!</h3>
+    <p>You've claimed your daily bonus points 🎉</p>
+    <button onclick="closeDailyLogin()">Close</button>
 </div>
 
 <script src="script.js"></script>
