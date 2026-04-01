@@ -28,3 +28,62 @@ h1,h2 { text-align:center; margin:10px; }
 #daily-login-popup button:hover { transform: scale(1.05); }
 
 .hidden { display:none; }
+
+
+.card {
+  width:180px;
+  height:250px;
+  margin:15px;
+  border-radius:15px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px;
+  color:white;
+  font-weight:bold;
+  text-align:center;
+  box-shadow:0 0 20px rgba(0,0,0,0.5);
+  transition:0.3s;
+  background:linear-gradient(135deg,#555,#999); /* default gradient for mid-tier */
+  position:relative;
+  overflow:hidden;
+}
+
+.card:hover { transform: scale(1.08); box-shadow:0 0 40px rgba(255,255,255,0.7); }
+
+.card-rating {
+  position:absolute;
+  top:10px;
+  left:10px;
+  font-size:22px;
+  font-weight:bold;
+  background:rgba(0,0,0,0.5);
+  padding:5px 8px;
+  border-radius:10px;
+}
+
+.card-subject {
+  margin-top:30px;
+  font-size:20px;
+  font-weight:bold;
+}
+
+.card-stats {
+  width:100%;
+  margin-top:auto;
+}
+
+.card-stat {
+  display:flex;
+  justify-content:space-between;
+  font-size:14px;
+  margin:3px 0;
+  padding:0 5px;
+}
+
+/* Tier coloring based on rating */
+.card-bronze { background:linear-gradient(135deg,#cd7f32,#b86b2c); }
+.card-silver { background:linear-gradient(135deg,#c0c0c0,#9e9e9e); }
+.card-gold { background:linear-gradient(135deg,#ffd700,#e6c200); }
+.card-legendary { background:linear-gradient(135deg,#00ffff,#00aaff); }
