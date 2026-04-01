@@ -11,53 +11,56 @@
 <!-- Background -->
 <div id="bg"></div>
 
-<!-- Header -->
-<header>
-    <h1>⚽ Revision Ultimate Team</h1>
-</header>
+<!-- Starter Screen -->
+<div id="starter-screen">
+    <h1>⚽ Pick Your 11 GCSE Subjects</h1>
+    <p>Select the subjects you want in your squad</p>
+    <div id="subjects-selection"></div>
+    <button id="start-game-btn">Start Game</button>
+</div>
 
-<!-- MENU -->
-<div id="menu">
+<!-- Main Menu -->
+<div id="menu" class="hidden">
     <div class="menu-main" onclick="showSection('subjects')">
         <h2>PLAY</h2>
         <p>Division Rivals</p>
     </div>
-
     <div class="menu-side">
-        <div class="menu-card" onclick="showSection('packs')">
-            <h3>PACKS</h3>
-        </div>
-        <div class="menu-card" onclick="showSection('team')">
-            <h3>TEAM</h3>
-        </div>
-        <div class="menu-card">
-            <h3>OBJECTIVES</h3>
-        </div>
+        <div class="menu-card" onclick="showSection('packs')"><h3>PACKS</h3></div>
+        <div class="menu-card" onclick="showSection('team')"><h3>TEAM</h3></div>
+        <div class="menu-card"><h3>OBJECTIVES</h3></div>
     </div>
 </div>
 
-<!-- SUBJECTS -->
+<!-- Subjects Section -->
 <div id="subjects" class="hidden">
     <h2>Select Subject</h2>
     <div id="subjects-container"></div>
     <button class="back-btn" onclick="showSection('menu')">Back</button>
 </div>
 
-<!-- PACKS -->
+<!-- Topics Section -->
+<div id="topics" class="hidden">
+    <h2 id="topic-subject-name"></h2>
+    <div id="topics-container"></div>
+    <button class="back-btn" onclick="showSection('subjects')">Back</button>
+</div>
+
+<!-- Packs Section -->
 <div id="packs" class="hidden">
     <h2>Packs</h2>
     <p>Open packs to unlock new players!</p>
     <button class="back-btn" onclick="showSection('menu')">Back</button>
 </div>
 
-<!-- TEAM -->
+<!-- Team Section -->
 <div id="team" class="hidden">
     <h2>Your Team</h2>
     <div id="team-container"></div>
     <button class="back-btn" onclick="showSection('menu')">Back</button>
 </div>
 
-<!-- DAILY LOGIN -->
+<!-- Daily Login -->
 <div id="daily-login-popup" class="hidden">
     <h3>Daily Reward!</h3>
     <p>You've claimed your daily bonus 🎉</p>
