@@ -1,89 +1,183 @@
-body, html { margin:0; padding:0; font-family:Arial, sans-serif; color:white; }
-#bg { position:fixed; top:0; left:0; width:100%; height:100%; background:url("bg.jpg") no-repeat center center fixed; background-size:cover; z-index:-1; filter:brightness(0.7); }
-
-h1,h2 { text-align:center; margin:10px; }
-#starter-screen { text-align:center; margin-top:50px; }
-.subject-card { display:inline-block; width:150px; margin:10px; padding:10px; background:linear-gradient(135deg, gold, orange); border-radius:12px; cursor:pointer; color:black; font-weight:bold; text-align:center; transition:0.3s; }
-.subject-card.selected { border: 3px solid cyan; transform: scale(1.05); }
-.subject-card:hover { transform: scale(1.05); }
-
-#menu { display:flex; justify-content:center; align-items:center; gap:20px; margin-top:60px; }
-.menu-main { width:420px; height:240px; background:linear-gradient(135deg,#1a1a1a,#000); border-radius:15px; display:flex; flex-direction:column; justify-content:center; align-items:center; font-size:28px; cursor:pointer; transition:0.3s; box-shadow:0 0 30px rgba(0,0,0,0.6);}
-.menu-main:hover { transform:scale(1.05); box-shadow:0 0 40px rgba(255,255,255,0.3);}
-.menu-side { display:grid; grid-template-columns:1fr 1fr; gap:15px;}
-.menu-card { width:180px; height:110px; background:rgba(0,0,0,0.7); border-radius:12px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:0.3s; text-align:center;}
-.menu-card:hover { transform: scale(1.08); background: rgba(255,255,255,0.2); }
-
-#subjects-container, #team-container, #topics-container { display:flex; flex-wrap:wrap; justify-content:center; margin-top:20px; }
-.card { width:180px; padding:15px; margin:15px; border-radius:15px; background:linear-gradient(135deg,gold,orange); color:black; font-weight:bold; text-align:center; box-shadow:0 0 20px rgba(0,0,0,0.5); transition:0.3s; }
-.card:hover { transform: scale(1.1); }
-
-.back-btn { margin-top:20px; padding:10px 20px; font-weight:bold; cursor:pointer; border-radius:12px; border:none; background:#1a1a1a; color:white; }
-
-#pack-animation { text-align:center; margin-top:20px; }
-#pack-result { margin-top:20px; font-size:24px; color:yellow; font-weight:bold; }
-
-#daily-login-popup { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:linear-gradient(135deg,#ff0,#ffa500); padding:20px; border-radius:15px; text-align:center; box-shadow:0 0 30px rgba(0,0,0,0.7); z-index:10; }
-#daily-login-popup button { margin-top:15px; padding:8px 15px; font-weight:bold; cursor:pointer; border-radius:10px; border:none; background:#1a1a1a; color:white; transition:0.2s; }
-#daily-login-popup button:hover { transform: scale(1.05); }
-
-.hidden { display:none; }
-
-
-.card {
-  width:180px;
-  height:250px;
-  margin:15px;
-  border-radius:15px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  align-items:center;
-  padding:10px;
-  color:white;
-  font-weight:bold;
-  text-align:center;
-  box-shadow:0 0 20px rgba(0,0,0,0.5);
-  transition:0.3s;
-  background:linear-gradient(135deg,#555,#999); /* default gradient for mid-tier */
-  position:relative;
-  overflow:hidden;
+/* ============================
+   General Page Styles
+============================ */
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: url('bg.png') no-repeat center center fixed;
+  background-size: cover;
+  color: white;
 }
 
-.card:hover { transform: scale(1.08); box-shadow:0 0 40px rgba(255,255,255,0.7); }
+.hidden {
+  display: none;
+}
+
+h1, h2, h3, h4 {
+  margin: 5px;
+}
+
+/* ============================
+   Starter Screen
+============================ */
+#starter-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+#subjects-selection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.subject-card {
+  width: 120px;
+  height: 50px;
+  margin: 5px;
+  border-radius: 10px;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.subject-card.selected {
+  background: gold;
+  color: black;
+  font-weight: bold;
+}
+
+/* ============================
+   Menu & Buttons
+============================ */
+button {
+  padding: 8px 15px;
+  margin: 5px;
+  border: none;
+  border-radius: 8px;
+  background-color: gold;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: orange;
+  transform: scale(1.05);
+}
+
+/* ============================
+   Sections
+============================ */
+#menu, #subjects, #topics, #team, #packs {
+  padding: 20px;
+}
+
+/* ============================
+   Cards General Style
+============================ */
+.card {
+  width: 180px;
+  height: 250px;
+  margin: 15px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  transition: 0.3s;
+  background: linear-gradient(135deg,#555,#999); /* default mid-tier */
+  position: relative;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 40px rgba(255,255,255,0.7);
+}
 
 .card-rating {
-  position:absolute;
-  top:10px;
-  left:10px;
-  font-size:22px;
-  font-weight:bold;
-  background:rgba(0,0,0,0.5);
-  padding:5px 8px;
-  border-radius:10px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 22px;
+  font-weight: bold;
+  background: rgba(0,0,0,0.5);
+  padding: 5px 8px;
+  border-radius: 10px;
 }
 
 .card-subject {
-  margin-top:30px;
-  font-size:20px;
-  font-weight:bold;
+  margin-top: 30px;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .card-stats {
-  width:100%;
-  margin-top:auto;
+  width: 100%;
+  margin-top: auto;
 }
 
 .card-stat {
-  display:flex;
-  justify-content:space-between;
-  font-size:14px;
-  margin:3px 0;
-  padding:0 5px;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  margin: 3px 0;
+  padding: 0 5px;
 }
 
-/* Tier coloring based on rating */
-.card-bronze { background:linear-gradient(135deg,#cd7f32,#b86b2c); }
-.card-silver { background:linear-gradient(135deg,#c0c0c0,#9e9e9e); }
-.card-gold { background:linear-gradient(135deg,#ffd700,#e6c200); }
-.card-legendary { background:linear-gradient(135deg,#00ffff,#00aaff); }
+/* ============================
+   Tier Colors
+============================ */
+.card-bronze { background: linear-gradient(135deg,#cd7f32,#b86b2c); }
+.card-silver { background: linear-gradient(135deg,#c0c0c0,#9e9e9e); }
+.card-gold { background: linear-gradient(135deg,#ffd700,#e6c200); }
+.card-legendary { background: linear-gradient(135deg,#00ffff,#00aaff); }
+
+/* ============================
+   Pack Result Popup
+============================ */
+#pack-result {
+  background: rgba(0,0,0,0.8);
+  border: 2px solid gold;
+  border-radius: 10px;
+  padding: 20px;
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  display: none;
+  z-index: 1000;
+}
+
+/* ============================
+   Daily Login Popup
+============================ */
+#daily-login-popup {
+  background: rgba(0,0,0,0.9);
+  border: 2px solid gold;
+  border-radius: 15px;
+  padding: 25px;
+  position: fixed;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18px;
+  display: none;
+  text-align: center;
+  z-index: 1000;
+}
