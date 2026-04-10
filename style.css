@@ -70,3 +70,15 @@ button {
   justify-content: space-between;
   font-size: 13px;
 }
+
+#pack-result {
+  margin-top: 20px;
+  font-size: 20px;
+  text-align: center;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
