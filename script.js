@@ -1,191 +1,189 @@
 let team = JSON.parse(localStorage.getItem("team")) || [];
 let coins = JSON.parse(localStorage.getItem("coins")) || 100;
 
-/* SUBJECTS */
-const subjects = ["Maths","English","Physics"];
+const subjects = [
+  "Maths","English","Physics","Chemistry","Biology",
+  "History","Geography","Computer Science",
+  "French","Latin","RE","Drama"
+];
 
 const subjectTopics = {
   Maths:["Algebra","Geometry"],
   English:["Language","Literature"],
-  Physics:["Energy","Forces"]
+  Physics:["Energy","Forces"],
+  Chemistry:["Bonding","Rates"],
+  Biology:["Cells","Genetics"],
+  History:["WW1","Cold War"],
+  Geography:["Rivers","Climate"],
+  "Computer Science":["Programming","Algorithms"],
+  French:["Vocabulary","Grammar"],
+  Latin:["Translation"],
+  RE:["Ethics"],
+  Drama:["Performance"]
 };
 
-/* QUESTIONS */
 const questions = {
-  Algebra: [
-    {
-      q: "Solve: 2x + 3 = 7",
-      options: ["x=1","x=2","x=3"],
-      answer: 1
-    }
+  Algebra:[
+    {q:"Solve 2x+3=7", options:["1","2","3"], answer:1}
   ],
-  Geometry: [
-    {
-      q: "Angles in triangle sum?",
-      options: ["90","180","360"],
-      answer: 1
-    }
+  Geometry:[
+    {q:"Triangle angles sum?", options:["90","180","360"], answer:1}
   ],
-  Energy: [
-    {
-      q: "Unit of energy?",
-      options: ["Joule","Watt","Volt"],
-      answer: 0
-    }
+  Energy:[
+    {q:"Unit of energy?", options:["Joule","Volt","Amp"], answer:0}
   ]
 };
 
 /* NAV */
-function showSection(section){
+function showSection(id){
   document.querySelectorAll(".section").forEach(s=>s.style.display="none");
-  document.getElementById(section).style.display="block";
+  document.getElementById(id).style.display="block";
   updateCoins();
-
-  if(section==="subjects") loadSubjects();
-  if(section==="team") loadTeam();
+  if(id==="subjects") loadSubjects();
+  if(id==="team") loadTeam();
 }
 
-/* UPDATE COINS */
-function updateCoins(){
-  document.getElementById("coins").innerText = coins;
-}
-
-/* SUBJECT VIEW */
+/* SUBJECTS */
 function loadSubjects(){
-  const container = document.getElementById("subjects-container");
-  container.innerHTML="";
+  let c = document.getElementById("subjects-container");
+  c.innerHTML="";
 
   subjects.forEach(sub=>{
-    let player = team.find(p=>p.name===sub);
+    let p = team.find(x=>x.name===sub);
 
     let div = document.createElement("div");
     div.className="card";
-
-    div.innerHTML = `
+    div.innerHTML=`
       <div class="card-subject">${sub}</div>
-      <div class="card-rating">${player ? player.rating : 0}</div>
-      <button onclick="openSubject('${sub}')">Train</button>
+      <div class="card-rating">${p?p.rating:0}</div>
+      <button onclick="openSubject('${sub}')">Play</button>
     `;
-
-    container.appendChild(div);
+    c.appendChild(div);
   });
 }
 
 /* TOPICS */
 function openSubject(sub){
   showSection("topics");
-  document.getElementById("topic-subject-name").innerText = sub;
+  document.getElementById("topic-title").innerText=sub;
 
-  const container = document.getElementById("topics-container");
-  container.innerHTML="";
+  let c = document.getElementById("topics-container");
+  c.innerHTML="";
 
   subjectTopics[sub].forEach(t=>{
-    let div = document.createElement("div");
+    let div=document.createElement("div");
     div.className="card";
-
-    div.innerHTML = `
-      <div class="card-subject">${t}</div>
-      <button onclick="startQuiz('${sub}','${t}')">Play</button>
+    div.innerHTML=`
+      <div>${t}</div>
+      <button onclick="startQuiz('${sub}','${t}')">Start</button>
     `;
-
-    container.appendChild(div);
+    c.appendChild(div);
   });
 }
 
-/* QUIZ */
+/* QUIZ UI */
 function startQuiz(sub, topic){
-  const q = questions[topic][0];
-
-  let answer = prompt(`${q.q}\n0:${q.options[0]}\n1:${q.options[1]}\n2:${q.options[2]}`);
-
-  if(parseInt(answer) === q.answer){
-    alert("✅ Correct!");
-    reward(sub, topic);
-  } else {
-    alert("❌ Wrong!");
-  }
-}
-
-/* REWARD */
-function reward(sub, topic){
-  coins += 10;
-
-  let player = team.find(p=>p.name===sub);
-  if(!player){
-    player = {name:sub, rating:0, topics:{}};
-    team.push(player);
-  }
-
-  player.topics[topic] = (player.topics[topic] || 0) + 10;
-
-  let total=0, count=0;
-  for(let t in player.topics){
-    total += player.topics[t];
-    count++;
-  }
-
-  player.rating = Math.min(Math.floor(total/count),99);
-
-  saveGame();
-}
-
-/* PACK SYSTEM */
-function openPack(type){
-  let cost = type==="basic" ? 50 : 100;
-
-  if(coins < cost){
-    alert("Not enough coins!");
+  if(!questions[topic]){
+    alert("No questions yet!");
     return;
   }
 
-  coins -= cost;
+  showSection("quiz");
 
-  const reward = Math.floor(Math.random()*20)+5;
+  let q = questions[topic][0];
+  document.getElementById("question").innerText = q.q;
 
-  document.getElementById("pack-result").innerText =
-    `🎉 You gained +${reward} rating boost!`;
+  let ansDiv = document.getElementById("answers");
+  ansDiv.innerHTML="";
 
-  // apply to random subject
-  let sub = subjects[Math.floor(Math.random()*subjects.length)];
+  q.options.forEach((opt,i)=>{
+    let btn = document.createElement("button");
+    btn.innerText = opt;
 
-  let player = team.find(p=>p.name===sub);
-  if(player){
-    player.rating = Math.min(player.rating + reward,99);
+    btn.onclick = ()=>{
+      if(i === q.answer){
+        coins+=10;
+        improve(sub,topic);
+        alert("Correct!");
+      } else {
+        alert("Wrong!");
+      }
+      showSection("subjects");
+    };
+
+    ansDiv.appendChild(btn);
+  });
+}
+
+/* IMPROVE */
+function improve(sub,topic){
+  let p = team.find(x=>x.name===sub);
+  if(!p){
+    p={name:sub,rating:0,topics:{}};
+    team.push(p);
   }
 
-  saveGame();
-  updateCoins();
+  p.topics[topic]=(p.topics[topic]||0)+10;
+
+  let total=0,count=0;
+  for(let t in p.topics){
+    total+=p.topics[t]; count++;
+  }
+
+  p.rating=Math.min(Math.floor(total/count),99);
+
+  save();
+}
+
+/* PACKS */
+function openPack(type){
+  let cost = type==="basic"?50:100;
+  if(coins<cost){ alert("Not enough coins"); return;}
+
+  coins-=cost;
+
+  let boost = Math.floor(Math.random()*20)+5;
+  let sub = subjects[Math.floor(Math.random()*subjects.length)];
+
+  let p = team.find(x=>x.name===sub);
+  if(p){
+    p.rating=Math.min(p.rating+boost,99);
+  }
+
+  document.getElementById("pack-result").innerText=
+    `You boosted ${sub} by +${boost}`;
+
+  save();
 }
 
 /* TEAM */
 function loadTeam(){
-  const container = document.getElementById("team-container");
-  container.innerHTML="";
+  let c=document.getElementById("team-container");
+  c.innerHTML="";
 
   team.forEach(p=>{
-    let div = document.createElement("div");
+    let div=document.createElement("div");
     div.className="card";
-
-    div.innerHTML = `
-      <div class="card-subject">${p.name}</div>
-      <div class="card-rating">${p.rating}</div>
+    div.innerHTML=`
+      <div>${p.name}</div>
+      <div>${p.rating}</div>
     `;
-
-    container.appendChild(div);
+    c.appendChild(div);
   });
 }
 
-/* SAVE */
-function saveGame(){
-  localStorage.setItem("team", JSON.stringify(team));
-  localStorage.setItem("coins", JSON.stringify(coins));
+function updateCoins(){
+  document.getElementById("coins").innerText=coins;
 }
 
-/* RESET */
+function save(){
+  localStorage.setItem("team",JSON.stringify(team));
+  localStorage.setItem("coins",JSON.stringify(coins));
+}
+
 function resetGame(){
   localStorage.clear();
   location.reload();
 }
 
-/* START */
 showSection("subjects");
