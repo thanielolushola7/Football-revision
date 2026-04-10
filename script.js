@@ -1,178 +1,146 @@
-// =========================
-// Subjects & Topics
-// =========================
-const allSubjects=["Mathematics","English","Physics","Chemistry","Biology","History","Geography","French","Latin","Divinity","Computer Science","Drama","Art","Music","Economics","RS"];
+let team = JSON.parse(localStorage.getItem("team")) || [];
 
-const subjectTopics={
-  "Mathematics":["Algebra","Trigonometry","Calculus","Statistics"],
-  "English":["Reading","Writing","Literature"],
-  "Physics":["Electricity","Forces","Energy","Waves"],
-  "Chemistry":["Bonding","Organic","Reactions","Periodic Table"],
-  "Biology":["Cells","Genetics","Ecology","Human Body"],
-  "History":["Medieval","WW1","WW2","Modern"],
-  "Geography":["Rivers","Coasts","Climate","Population"],
-  "French":["Grammar","Vocabulary","Listening","Speaking"],
-  "Latin":["Grammar","Translation","Culture"],
-  "Divinity":["Christianity","Islam","Judaism"],
-  "Computer Science":["Programming","Algorithms","Databases"],
-  "Drama":["Performance","Theory"],
-  "Art":["Painting","Sculpture"],
-  "Music":["Theory","Performance"],
-  "Economics":["Micro","Macro","Markets"],
-  "RS":["Ethics","Philosophy"]
+const subjects = [
+  "Maths","English","Physics","Chemistry","Biology",
+  "History","Geography","Computer Science",
+  "French","RE","Drama"
+];
+
+const subjectTopics = {
+  Maths:["Algebra","Geometry","Probability","Trigonometry"],
+  English:["Poetry","Language","Literature"],
+  Physics:["Energy","Forces","Electricity"],
+  Chemistry:["Bonding","Rates","Organic"],
+  Biology:["Cells","Genetics","Ecology"],
+  History:["WW1","Cold War","Medicine"],
+  Geography:["Rivers","Climate","Urban"],
+  "Computer Science":["Algorithms","Programming","Data"],
+  French:["Vocabulary","Grammar","Speaking"],
+  RE:["Ethics","Philosophy","Religion"],
+  Drama:["Performance","Script","Evaluation"]
 };
 
-// =========================
-// Starter Screen & Selection
-// =========================
-let selectedSubjects=[];
-let team=[];
-const selectionContainer=document.getElementById("subjects-selection");
+/* NAVIGATION */
+function showSection(section){
+  document.querySelectorAll(".section").forEach(s=>s.style.display="none");
+  document.getElementById(section).style.display="block";
 
-// Load saved progress
-let savedData=JSON.parse(localStorage.getItem("revisionTeam"));
-if(savedData){
-  selectedSubjects=savedData.selectedSubjects;
-  team=savedData.team;
-  showSection("menu");
+  if(section==="subjects") loadSubjects();
+  if(section==="team") loadTeam();
 }
 
-// Populate subjects
-allSubjects.forEach(sub=>{
-  const div=document.createElement("div");
-  div.className="subject-card";
-  div.innerText=sub;
-  if(selectedSubjects.includes(sub)) div.classList.add("selected");
-  div.onclick=()=>{
-    if(selectedSubjects.includes(sub)){
-      selectedSubjects=selectedSubjects.filter(s=>s!==sub); div.classList.remove("selected");
-    }else{
-      if(selectedSubjects.length<11){ selectedSubjects.push(sub); div.classList.add("selected"); }
-      else alert("You can only pick 11 subjects!");
-    }
-  };
-  selectionContainer.appendChild(div);
-});
-
-// Start game
-document.getElementById("start-game-btn").onclick=()=>{
-  if(selectedSubjects.length!==11){ alert("Pick exactly 11 subjects!"); return; }
-  if(team.length===0) team=selectedSubjects.map(s=>({name:s,rating:70}));
-  saveProgress();
-  showSection("menu");
-};
-
-// =========================
-// Navigation
-// =========================
-function showSection(sec){
-  ["starter-screen","menu","subjects","topics","packs","team"].forEach(s=>document.getElementById(s).classList.add("hidden"));
-  document.getElementById(sec).classList.remove("hidden");
-  if(sec==="subjects") loadSubjects();
-  if(sec==="team") loadTeam();
-}
-
-// =========================
-// Load Subjects
-// =========================
+/* LOAD SUBJECTS (FOLDERS) */
 function loadSubjects(){
-  const container=document.getElementById("subjects-container"); container.innerHTML="";
-  selectedSubjects.forEach(sub=>{
-    const div=document.createElement("div"); div.className="card";
-    div.innerHTML=`<h3>${sub}</h3><button onclick="selectSubject('${sub}')">View Topics</button>`;
+  const container = document.getElementById("subjects-container");
+  container.innerHTML="";
+
+  subjects.forEach(sub=>{
+    let player = team.find(p=>p.name===sub);
+
+    let topicsHTML="";
+    subjectTopics[sub].forEach(t=>{
+      let rating = player ? player.topics[t] || 0 : 0;
+      topicsHTML += `<div class="card-stat">${t}: ${rating}</div>`;
+    });
+
+    const div = document.createElement("div");
+    div.className="card";
+    div.innerHTML = `
+      <div class="card-subject">${sub}</div>
+      <div class="card-rating">${player ? player.rating : 0}</div>
+      <div class="card-stats">${topicsHTML}</div>
+      <button onclick="openSubject('${sub}')">Train</button>
+    `;
+
     container.appendChild(div);
   });
 }
 
-// =========================
-// Load Topics
-// =========================
-function selectSubject(sub){
+/* OPEN SUBJECT */
+function openSubject(sub){
   showSection("topics");
-  document.getElementById("topic-subject-name").innerText=sub;
-  const container=document.getElementById("topics-container"); container.innerHTML="";
+  document.getElementById("topic-subject-name").innerText = sub;
+
+  const container = document.getElementById("topics-container");
+  container.innerHTML="";
+
   subjectTopics[sub].forEach(t=>{
-    const div=document.createElement("div"); div.className="card";
-    div.innerHTML=`<h4>${t}</h4><button onclick="train('${sub}','${t}')">Train</button>`;
+    let player = team.find(p=>p.name===sub);
+    let rating = player ? player.topics[t] || 0 : 0;
+
+    const div = document.createElement("div");
+    div.className="card";
+
+    div.innerHTML = `
+      <div class="card-subject">${t}</div>
+      <div class="card-rating">${rating}</div>
+      <button onclick="train('${sub}','${t}')">Answer Question</button>
+    `;
+
     container.appendChild(div);
   });
 }
 
-// =========================
-// Training
-// =========================
-function train(subject, topic){
-  alert(`Training on ${topic}...`);
-  const player=team.find(p=>p.name===subject);
-  if(player){ player.rating=Math.min(player.rating+3,99); saveProgress(); loadTeam(); }
-}
+/* TRAIN SYSTEM */
+function train(sub, topic){
+  let answer = prompt(`Answer a ${topic} question:`);
 
-// =========================
-// Team Rendering (FIFA-style)
-function loadTeam(){
-  const container=document.getElementById("team-container"); container.innerHTML="";
-  team.forEach(p=>{
-    const div=document.createElement("div"); div.className="card";
+  if(answer){ // simulate correct
+    let player = team.find(p=>p.name===sub);
 
-    // Tier based on rating
-    let tierClass="card-bronze";
-    if(p.rating>=85) tierClass="card-legendary";
-    else if(p.rating>=75) tierClass="card-gold";
-    else if(p.rating>=65) tierClass="card-silver";
-
-    div.classList.add(tierClass);
-
-    // Stats for topics
-    let statsHTML="";
-    if(subjectTopics[p.name]){
-      subjectTopics[p.name].forEach(t=>{
-        statsHTML+=`<div class="card-stat">${t}</div>`;
-      });
+    if(!player){
+      player = {name:sub, rating:0, topics:{}};
+      team.push(player);
     }
 
-    div.innerHTML=`
-      <div class="card-rating">${p.rating}</div>
+    player.topics[topic] = (player.topics[topic] || 0) + 5;
+
+    // calculate overall rating
+    let total = 0;
+    let count = 0;
+    for(let t in player.topics){
+      total += player.topics[t];
+      count++;
+    }
+
+    player.rating = Math.min(Math.floor(total/count),99);
+
+    saveGame();
+    openSubject(sub);
+  }
+}
+
+/* TEAM VIEW */
+function loadTeam(){
+  const container = document.getElementById("team-container");
+  container.innerHTML="";
+
+  team.forEach(p=>{
+    const div = document.createElement("div");
+    div.className="card";
+
+    div.innerHTML = `
       <div class="card-subject">${p.name}</div>
-      <div class="card-stats">${statsHTML}</div>
+      <div class="card-rating">${p.rating}</div>
     `;
+
     container.appendChild(div);
   });
 }
 
-// =========================
-// Packs
-// =========================
-function openPack(){
-  const subjectsLeft=allSubjects.filter(s=>!team.find(p=>p.name===s));
-  let reward="No new player!";
-  if(subjectsLeft.length>0){
-    const newSub=subjectsLeft[Math.floor(Math.random()*subjectsLeft.length)];
-    reward=`New Player: ${newSub}! +5 Rating`;
-    team.push({name:newSub,rating:75});
-  }
-  const packResult=document.getElementById("pack-result");
-  packResult.innerText=reward; packResult.classList.remove("hidden");
-  saveProgress();
-  loadTeam();
+/* SAVE */
+function saveGame(){
+  localStorage.setItem("team", JSON.stringify(team));
 }
 
-// =========================
-// Save & Reset
-// =========================
-function saveProgress(){
-  localStorage.setItem("revisionTeam", JSON.stringify({selectedSubjects, team}));
-}
-
-function resetProgress(){
-  if(confirm("Are you sure you want to reset your progress?")){
-    localStorage.removeItem("revisionTeam");
+/* RESET */
+function resetGame(){
+  if(confirm("Reset everything?")){
+    localStorage.clear();
+    team=[];
     location.reload();
   }
 }
 
-// =========================
-// Daily Login
-// =========================
-const lastClaim=localStorage.getItem("dailyLogin"); const today=new Date().toDateString();
-if(lastClaim!==today){ document.getElementById("daily-login-popup").classList.remove("hidden"); localStorage.setItem("dailyLogin",today); }
-function closeDailyLogin(){ document.getElementById("daily-login-popup").classList.add("hidden"); }
+/* START */
+showSection("subjects");
