@@ -1,63 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GCSE FIFA Revision</title>
-<link rel="stylesheet" href="style.css">
+  <title>GCSE FUT</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- Starter Screen -->
-<div id="starter-screen">
-  <h1>Pick Your 11 Subjects</h1>
-  <div id="subjects-selection"></div>
-  <button id="start-game-btn">Start Game</button>
+<div id="menu">
+  <h1>GCSE ULTIMATE TEAM</h1>
+  <button onclick="showSection('subjects')">📚 Subjects</button>
+  <button onclick="showSection('team')">👥 My Team</button>
+  <button onclick="resetGame()">🔄 Reset</button>
 </div>
 
-<!-- Main Menu -->
-<div id="menu" class="hidden">
-  <h1>Revision Menu</h1>
-  <button onclick="showSection('subjects')">Subjects</button>
-  <button onclick="showSection('team')">Team</button>
-  <button onclick="showSection('packs')">Packs</button>
-  <button onclick="resetProgress()">Reset Progress</button>
-</div>
-
-<!-- Subjects Section -->
-<div id="subjects" class="hidden">
-  <h1>Subjects</h1>
+<div id="subjects" class="section">
+  <h2>Subjects</h2>
   <div id="subjects-container"></div>
-  <button onclick="showSection('menu')">Back to Menu</button>
 </div>
 
-<!-- Topics Section -->
-<div id="topics" class="hidden">
-  <h1 id="topic-subject-name"></h1>
+<div id="topics" class="section">
+  <h2 id="topic-subject-name"></h2>
+  <button onclick="showSection('subjects')">⬅ Back</button>
   <div id="topics-container"></div>
-  <button onclick="showSection('subjects')">Back to Subjects</button>
 </div>
 
-<!-- Team Section -->
-<div id="team" class="hidden">
-  <h1>Your Team</h1>
+<div id="team" class="section">
+  <h2>My Team</h2>
   <div id="team-container"></div>
-  <button onclick="showSection('menu')">Back to Menu</button>
-</div>
-
-<!-- Packs Section -->
-<div id="packs" class="hidden">
-  <h1>Packs</h1>
-  <button onclick="openPack()">Open Pack</button>
-  <div id="pack-result" class="hidden"></div>
-  <button onclick="showSection('menu')">Back to Menu</button>
-</div>
-
-<!-- Daily Login Popup -->
-<div id="daily-login-popup" class="hidden">
-  <h2>Daily Login Bonus!</h2>
-  <p>Welcome back! Train your subjects today!</p>
-  <button onclick="closeDailyLogin()">Close</button>
 </div>
 
 <script src="script.js"></script>
