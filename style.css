@@ -1,170 +1,72 @@
-/* ============================
-   General Page Styles
-============================ */
 body {
-  font-family: 'Arial', sans-serif;
   margin: 0;
-  padding: 0;
+  font-family: Arial, sans-serif;
   background: url('bg.png') no-repeat center center fixed;
   background-size: cover;
   color: white;
 }
 
-.hidden { display: none; }
-
-h1, h2, h3, h4 { margin: 5px; }
-
-/* ============================
-   Starter Screen
-============================ */
-#starter-screen {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+/* DARK OVERLAY */
+body::before {
+  content: "";
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.6);
+  z-index:-1;
 }
 
-#subjects-selection {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+#menu {
+  text-align: center;
+  padding: 20px;
 }
 
-.subject-card {
-  width: 120px;
-  height: 50px;
-  margin: 5px;
-  border-radius: 10px;
-  background: rgba(0,0,0,0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.subject-card.selected {
-  background: gold;
-  color: black;
-  font-weight: bold;
-}
-
-/* ============================
-   Menu & Buttons
-============================ */
 button {
-  padding: 8px 15px;
+  padding: 10px;
   margin: 5px;
   border: none;
   border-radius: 8px;
-  background-color: gold;
-  color: black;
-  font-weight: bold;
   cursor: pointer;
-  transition: 0.3s;
-}
-
-button:hover {
-  background-color: orange;
-  transform: scale(1.05);
-}
-
-/* ============================
-   Sections
-============================ */
-#menu, #subjects, #topics, #team, #packs { padding: 20px; }
-
-/* ============================
-   Cards General Style
-============================ */
-.card {
-  width: 180px;
-  height: 250px;
-  margin: 15px;
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  color: white;
+  background: #00ffcc;
   font-weight: bold;
-  text-align: center;
-  box-shadow: 0 0 20px rgba(0,0,0,0.5);
-  transition: 0.3s;
-  background: linear-gradient(135deg,#555,#999); /* default mid-tier */
-  position: relative;
-  overflow: hidden;
 }
 
-.card:hover {
-  transform: scale(1.08);
-  box-shadow: 0 0 40px rgba(255,255,255,0.7);
+.section {
+  display: none;
+  padding: 20px;
+}
+
+.card {
+  background: linear-gradient(135deg, gold, orange);
+  color: black;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 12px;
+  display: inline-block;
+  width: 200px;
+  text-align: center;
+}
+
+.card-subject {
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .card-rating {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  font-size: 22px;
-  font-weight: bold;
-  background: rgba(0,0,0,0.5);
-  padding: 5px 8px;
-  border-radius: 10px;
+  font-size: 24px;
 }
 
-.card-subject { margin-top: 30px; font-size: 20px; font-weight: bold; }
-
-.card-stats { width: 100%; margin-top: auto; }
+.card-stats {
+  background: rgba(0,0,0,0.3);
+  border-radius: 8px;
+  padding: 5px;
+  margin-top: 5px;
+}
 
 .card-stat {
   display: flex;
-  justify-content: center;
-  font-size: 14px;
-  margin: 3px 0;
-  padding: 0 5px;
-}
-
-/* ============================
-   Tier Colors
-============================ */
-.card-bronze { background: linear-gradient(135deg,#cd7f32,#b86b2c); }
-.card-silver { background: linear-gradient(135deg,#c0c0c0,#9e9e9e); }
-.card-gold { background: linear-gradient(135deg,#ffd700,#e6c200); }
-.card-legendary { background: linear-gradient(135deg,#00ffff,#00aaff); }
-
-/* ============================
-   Pack Result Popup
-============================ */
-#pack-result {
-  background: rgba(0,0,0,0.8);
-  border: 2px solid gold;
-  border-radius: 10px;
-  padding: 20px;
-  position: fixed;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 20px;
-  display: none;
-  z-index: 1000;
-}
-
-/* ============================
-   Daily Login Popup
-============================ */
-#daily-login-popup {
-  background: rgba(0,0,0,0.9);
-  border: 2px solid gold;
-  border-radius: 15px;
-  padding: 25px;
-  position: fixed;
-  top: 25%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 18px;
-  display: none;
-  text-align: center;
-  z-index: 1000;
+  justify-content: space-between;
+  font-size: 13px;
 }
