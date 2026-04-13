@@ -21,14 +21,19 @@ function loadSubjects(){
   subjects.forEach(sub=>{
     let rating = getSubjectRating(sub);
 
+    let tier = "bronze";
+    if(rating >= 70) tier = "silver";
+    if(rating >= 85) tier = "gold";
+
     let div=document.createElement("div");
-    div.className="card "+getClass(rating);
+    div.className=`card ${tier}`;
 
     div.innerHTML=`
-      <h3>${sub}</h3>
-      <p>${rating}</p>
-      <button onclick="openSubject('${sub}')">Open</button>
+      <div class="rating">${rating}</div>
+      <div class="name">${sub}</div>
+      <button onclick="openSubject('${sub}')">Play</button>
     `;
+
     c.appendChild(div);
   });
 }
