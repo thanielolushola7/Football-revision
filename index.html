@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>GCSE FUT</title>
+  <title>GCSE Ultimate Team</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -10,12 +10,10 @@
   <h1>GCSE ULTIMATE TEAM</h1>
   <p>Coins: <span id="coins">0</span></p>
 
-  <div class="menu-buttons">
-    <button onclick="showSection('subjects')">Play</button>
-    <button onclick="showSection('team')">Team</button>
-    <button onclick="showSection('packs')">Packs</button>
-    <button onclick="resetGame()">Reset</button>
-  </div>
+  <button onclick="showSection('subjects')">Play</button>
+  <button onclick="showSection('team')">Team</button>
+  <button onclick="showSection('quiz')">Quiz</button>
+  <button onclick="resetGame()">Reset</button>
 </div>
 
 <div id="subjects" class="section">
@@ -25,7 +23,7 @@
 
 <div id="topics" class="section">
   <button onclick="showSection('subjects')">⬅ Back</button>
-  <h2 id="topic-title"></h2>
+  <h2 id="subject-title"></h2>
   <div id="topics-container"></div>
 </div>
 
@@ -35,17 +33,12 @@
 </div>
 
 <div id="team" class="section">
-  <h2>My Team</h2>
+  <h2>Your Subjects</h2>
   <div id="team-container"></div>
 </div>
 
-<div id="packs" class="section">
-  <h2>Packs</h2>
-  <button onclick="openPack('basic')">Basic (50)</button>
-  <button onclick="openPack('premium')">Premium (100)</button>
-  <div id="pack-result"></div>
-</div>
-
+<script src="gcseData.js"></script>
 <script src="script.js"></script>
+
 </body>
 </html>
