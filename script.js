@@ -1,44 +1,14 @@
-let team = JSON.parse(localStorage.getItem("team")) || [];
+let team = JSON.parse(localStorage.getItem("team")) || {};
 let coins = JSON.parse(localStorage.getItem("coins")) || 100;
 
-const subjects = [
-  "Maths","English","Physics","Chemistry","Biology",
-  "History","Geography","Computer Science",
-  "French","Latin","RE","Drama"
-];
-
-const subjectTopics = {
-  Maths:["Algebra","Geometry"],
-  English:["Language","Literature"],
-  Physics:["Energy","Forces"],
-  Chemistry:["Bonding","Rates"],
-  Biology:["Cells","Genetics"],
-  History:["WW1","Cold War"],
-  Geography:["Rivers","Climate"],
-  "Computer Science":["Programming","Algorithms"],
-  French:["Vocabulary","Grammar"],
-  Latin:["Translation"],
-  RE:["Ethics"],
-  Drama:["Performance"]
-};
-
-const questions = {
-  Algebra:[
-    {q:"Solve 2x+3=7", options:["1","2","3"], answer:1}
-  ],
-  Geometry:[
-    {q:"Triangle angles sum?", options:["90","180","360"], answer:1}
-  ],
-  Energy:[
-    {q:"Unit of energy?", options:["Joule","Volt","Amp"], answer:0}
-  ]
-};
+const subjects = Object.keys(gcseData);
 
 /* NAV */
 function showSection(id){
   document.querySelectorAll(".section").forEach(s=>s.style.display="none");
   document.getElementById(id).style.display="block";
   updateCoins();
+
   if(id==="subjects") loadSubjects();
   if(id==="team") loadTeam();
 }
@@ -49,111 +19,107 @@ function loadSubjects(){
   c.innerHTML="";
 
   subjects.forEach(sub=>{
-    let p = team.find(x=>x.name===sub);
+    let rating = getSubjectRating(sub);
 
-    let div = document.createElement("div");
-    div.className="card";
+    let div=document.createElement("div");
+    div.className="card "+getClass(rating);
+
     div.innerHTML=`
-      <div class="card-subject">${sub}</div>
-      <div class="card-rating">${p?p.rating:0}</div>
-      <button onclick="openSubject('${sub}')">Play</button>
+      <h3>${sub}</h3>
+      <p>${rating}</p>
+      <button onclick="openSubject('${sub}')">Open</button>
     `;
     c.appendChild(div);
   });
 }
 
-/* TOPICS */
+/* OPEN SUBJECT */
 function openSubject(sub){
   showSection("topics");
-  document.getElementById("topic-title").innerText=sub;
+  document.getElementById("subject-title").innerText=sub;
 
-  let c = document.getElementById("topics-container");
+  let c=document.getElementById("topics-container");
   c.innerHTML="";
 
-  subjectTopics[sub].forEach(t=>{
+  for(let cat in gcseData[sub]){
+    let topics=gcseData[sub][cat];
+
     let div=document.createElement("div");
     div.className="card";
+
     div.innerHTML=`
-      <div>${t}</div>
-      <button onclick="startQuiz('${sub}','${t}')">Start</button>
+      <h4>${cat}</h4>
+      ${topics.map(t=>`
+        <button onclick="startQuiz('${sub}','${t}')">${t} (${getTopicRating(sub,t)})</button>
+      `).join("")}
     `;
+
     c.appendChild(div);
-  });
+  }
 }
 
-/* QUIZ UI */
-function startQuiz(sub, topic){
-  if(!questions[topic]){
-    alert("No questions yet!");
-    return;
-  }
-
+/* QUIZ */
+function startQuiz(sub,topic){
   showSection("quiz");
 
-  let q = questions[topic][0];
-  document.getElementById("question").innerText = q.q;
+  let q={
+    q:`Quick question on ${topic}`,
+    options:["A","B","C"],
+    answer:0
+  };
 
-  let ansDiv = document.getElementById("answers");
-  ansDiv.innerHTML="";
+  document.getElementById("question").innerText=q.q;
+
+  let ans=document.getElementById("answers");
+  ans.innerHTML="";
 
   q.options.forEach((opt,i)=>{
-    let btn = document.createElement("button");
-    btn.innerText = opt;
+    let btn=document.createElement("button");
+    btn.innerText=opt;
 
-    btn.onclick = ()=>{
-      if(i === q.answer){
-        coins+=10;
+    btn.onclick=()=>{
+      if(i===q.answer){
         improve(sub,topic);
+        coins+=10;
         alert("Correct!");
-      } else {
-        alert("Wrong!");
-      }
+      } else alert("Wrong");
+
       showSection("subjects");
     };
 
-    ansDiv.appendChild(btn);
+    ans.appendChild(btn);
   });
 }
 
 /* IMPROVE */
 function improve(sub,topic){
-  let p = team.find(x=>x.name===sub);
-  if(!p){
-    p={name:sub,rating:0,topics:{}};
-    team.push(p);
-  }
+  if(!team[sub]) team[sub]={};
 
-  p.topics[topic]=(p.topics[topic]||0)+10;
-
-  let total=0,count=0;
-  for(let t in p.topics){
-    total+=p.topics[t]; count++;
-  }
-
-  p.rating=Math.min(Math.floor(total/count),99);
+  team[sub][topic]=(team[sub][topic]||0)+10;
 
   save();
 }
 
-/* PACKS */
-function openPack(type){
-  let cost = type==="basic"?50:100;
-  if(coins<cost){ alert("Not enough coins"); return;}
+/* RATINGS */
+function getTopicRating(sub,topic){
+  return team[sub]?.[topic]||0;
+}
 
-  coins-=cost;
+function getSubjectRating(sub){
+  let topics=team[sub];
+  if(!topics) return 0;
 
-  let boost = Math.floor(Math.random()*20)+5;
-  let sub = subjects[Math.floor(Math.random()*subjects.length)];
-
-  let p = team.find(x=>x.name===sub);
-  if(p){
-    p.rating=Math.min(p.rating+boost,99);
+  let total=0,count=0;
+  for(let t in topics){
+    total+=topics[t]; count++;
   }
+  return Math.floor(total/count);
+}
 
-  document.getElementById("pack-result").innerText=
-    `You boosted ${sub} by +${boost}`;
-
-  save();
+function getClass(r){
+  if(r<40) return "low";
+  if(r<70) return "medium";
+  return "high";
 }
 
 /* TEAM */
@@ -161,26 +127,27 @@ function loadTeam(){
   let c=document.getElementById("team-container");
   c.innerHTML="";
 
-  team.forEach(p=>{
+  subjects.forEach(sub=>{
+    let r=getSubjectRating(sub);
+
     let div=document.createElement("div");
     div.className="card";
-    div.innerHTML=`
-      <div>${p.name}</div>
-      <div>${p.rating}</div>
-    `;
+    div.innerHTML=`${sub}: ${r}`;
     c.appendChild(div);
   });
+}
+
+/* SAVE */
+function save(){
+  localStorage.setItem("team",JSON.stringify(team));
+  localStorage.setItem("coins",JSON.stringify(coins));
 }
 
 function updateCoins(){
   document.getElementById("coins").innerText=coins;
 }
 
-function save(){
-  localStorage.setItem("team",JSON.stringify(team));
-  localStorage.setItem("coins",JSON.stringify(coins));
-}
-
+/* RESET */
 function resetGame(){
   localStorage.clear();
   location.reload();
