@@ -159,3 +159,29 @@ function resetGame(){
 }
 
 showSection("subjects");
+
+function openPack(){
+  if(coins < 50){
+    alert("Not enough coins!");
+    return;
+  }
+
+  coins -= 50;
+
+  let sub = subjects[Math.floor(Math.random()*subjects.length)];
+  let boost = Math.floor(Math.random()*20)+5;
+
+  if(!team[sub]) team[sub]={};
+
+  // boost random topic
+  let topicList = Object.values(gcseData[sub]).flat();
+  let topic = topicList[Math.floor(Math.random()*topicList.length)];
+
+  team[sub][topic] = (team[sub][topic] || 0) + boost;
+
+  let result = document.getElementById("pack-result");
+  result.innerText = `🔥 ${sub} +${boost}`;
+
+  save();
+  updateCoins();
+}
