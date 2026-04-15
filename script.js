@@ -21,9 +21,9 @@ function loadSubjects(){
   subjects.forEach(sub=>{
     let rating = getSubjectRating(sub);
 
-    let tier = "bronze";
-    if(rating >= 70) tier = "silver";
-    if(rating >= 85) tier = "gold";
+    let tier="bronze";
+    if(rating>=70) tier="silver";
+    if(rating>=85) tier="gold";
 
     let div=document.createElement("div");
     div.className=`card ${tier}`;
@@ -55,7 +55,9 @@ function openSubject(sub){
     div.innerHTML=`
       <h4>${cat}</h4>
       ${topics.map(t=>`
-        <button onclick="startQuiz('${sub}','${t}')">${t} (${getTopicRating(sub,t)})</button>
+        <button onclick="startQuiz('${sub}','${t}')">
+          ${t} (${getTopicRating(sub,t)})
+        </button>
       `).join("")}
     `;
 
@@ -67,9 +69,9 @@ function openSubject(sub){
 function startQuiz(sub,topic){
   showSection("quiz");
 
-  let q={
-    q:`Quick question on ${topic}`,
-    options:["A","B","C"],
+  let q = {
+    q:`Question on ${topic}`,
+    options:["Option A","Option B","Option C"],
     answer:0
   };
 
@@ -111,20 +113,58 @@ function getTopicRating(sub,topic){
 }
 
 function getSubjectRating(sub){
-  let topics=team[sub];
-  if(!topics) return 0;
+  let t=team[sub];
+  if(!t) return 0;
 
   let total=0,count=0;
-  for(let t in topics){
-    total+=topics[t]; count++;
-  }
+  for(let k in t){ total+=t[k]; count++; }
   return Math.floor(total/count);
 }
 
-function getClass(r){
-  if(r<40) return "low";
-  if(r<70) return "medium";
-  return "high";
+/* PACK */
+function openPack(){
+  if(coins<50){ alert("Not enough coins"); return; }
+
+  coins-=50;
+
+  const anim=document.getElementById("pack-animation");
+  const card=document.getElementById("walkout-card");
+
+  anim.classList.remove("hidden");
+
+  setTimeout(()=>{
+    let sub=subjects[Math.floor(Math.random()*subjects.length)];
+    let boost=Math.floor(Math.random()*20)+5;
+
+    if(!team[sub]) team[sub]={};
+
+    let topics=Object.values(gcseData[sub]).flat();
+    let topic=topics[Math.floor(Math.random()*topics.length)];
+
+    team[sub][topic]=(team[sub][topic]||0)+boost;
+
+    let rating=getSubjectRating(sub);
+
+    let tier="bronze";
+    if(rating>=70) tier="silver";
+    if(rating>=85) tier="gold";
+
+    card.className=tier;
+    card.innerHTML=`
+      <div>${rating}</div>
+      <div>${sub}</div>
+      <div>+${boost}</div>
+    `;
+
+    save();
+    updateCoins();
+
+  },500);
+
+  setTimeout(()=>{
+    anim.classList.add("hidden");
+    showSection("subjects");
+  },2500);
 }
 
 /* TEAM */
@@ -137,7 +177,7 @@ function loadTeam(){
 
     let div=document.createElement("div");
     div.className="card";
-    div.innerHTML=`${sub}: ${r}`;
+    div.innerHTML=`${sub}<br>${r}`;
     c.appendChild(div);
   });
 }
@@ -159,29 +199,3 @@ function resetGame(){
 }
 
 showSection("subjects");
-
-function openPack(){
-  if(coins < 50){
-    alert("Not enough coins!");
-    return;
-  }
-
-  coins -= 50;
-
-  let sub = subjects[Math.floor(Math.random()*subjects.length)];
-  let boost = Math.floor(Math.random()*20)+5;
-
-  if(!team[sub]) team[sub]={};
-
-  // boost random topic
-  let topicList = Object.values(gcseData[sub]).flat();
-  let topic = topicList[Math.floor(Math.random()*topicList.length)];
-
-  team[sub][topic] = (team[sub][topic] || 0) + boost;
-
-  let result = document.getElementById("pack-result");
-  result.innerText = `🔥 ${sub} +${boost}`;
-
-  save();
-  updateCoins();
-}
